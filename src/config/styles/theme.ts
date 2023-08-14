@@ -2,12 +2,10 @@ export default {
     colors: {
         primary: '',
         secondary: '',
-
-
     },
     fonts: {
-        regular: '',
-        medium : '',
-        bold : '',
+        regular: 'Inter-Regular',
+        medium : 'Inter-Medium',
+        bold : 'Inter-Bold',
     },
 };
