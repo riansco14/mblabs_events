@@ -7,7 +7,7 @@ const { Navigator, Screen } = createStackNavigator()
 
 export function AppRoutes() {
     return (
-        <Navigator>
+        <Navigator  screenOptions={{headerShown: false}}>
             <Screen
                 name="Dashboard"
                 component={Dashboard}
