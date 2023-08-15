@@ -17,7 +17,7 @@ import { Switch, TextInput } from "react-native-gesture-handler";
 import Logo from "../../../assets/ilustrations/logoEventsColor.svg";
 import { StatusBar } from "expo-status-bar";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
-import { setUserEmailRemember } from "../../../store/user/userSlice";
+import { login, setUserEmailRemember } from "../../../store/user/userSlice";
 
 export function Login() {
   const theme = useTheme();
@@ -39,6 +39,8 @@ export function Login() {
     if (rememberPassword) {
       dispatch(setUserEmailRemember(email));
     }
+
+    dispatch(login({email, password}))
   }
 
   function handleSwitchRememberEmail() {
