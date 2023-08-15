@@ -10,7 +10,9 @@ export default {
         font_dark: "#262627",
         font_grey: "#7C7C7C",
 
-        placeholder_grey: "#C0BCBC"
+        placeholder_grey: "#C0BCBC",
+        menu_active: "#000",
+        menu_inactive: "#BDBDBD"
     },
     fonts: {
         regular: 'Inter-Regular',
