@@ -4,6 +4,6 @@ import { Text } from "react-native"
 
 export function Dashboard (){
     return(<Container>
-        <Text>Dashboard</Text>
+        <Text style={{fontFamily: "Inter-SemiBold", fontSize: 22}}>Dashboard</Text>
     </Container>)
 }
