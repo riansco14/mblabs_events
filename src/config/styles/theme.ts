@@ -9,6 +9,8 @@ export default {
         font_light: "#FFF",
         font_dark: "#262627",
         font_grey: "#7C7C7C",
+
+        placeholder_grey: "#C0BCBC"
     },
     fonts: {
         regular: 'Inter-Regular',
