@@ -2,23 +2,22 @@ import React from "react"
 import { Container, TextButton } from "./styles"
 import { useTheme } from "styled-components"
 
-import {StyleProp,ViewStyle } from "react-native"
+import {TouchableOpacityProps } from "react-native"
 
-interface ButtonProps{
+interface ButtonProps extends TouchableOpacityProps{
     children: React.ReactNode
     backgroundColor: string
     textColor: string
     type: "default" | "bold" | "filter"
-    style?: StyleProp<ViewStyle>
 }
 
-export function Button ({children, type = "default", backgroundColor, textColor, style}: ButtonProps){
+export function Button ({children, type = "default", backgroundColor, textColor, ...rest}: ButtonProps){
     const theme = useTheme()
 
     const buttonTextStyles = {
         default: {
             fontSize: theme.fontSizes.body,
-            fontFamily: theme.fonts.medium
+            fontFamily: theme.fonts.regular
         },
         bold: {
             fontSize: theme.fontSizes.body,
@@ -30,7 +29,7 @@ export function Button ({children, type = "default", backgroundColor, textColor,
         }
     }
 
-    return(<Container backgroundColor={backgroundColor} style={style}>
+    return(<Container backgroundColor={backgroundColor} {...rest}>
         <TextButton textColor={textColor} fontFamily={buttonTextStyles[type].fontFamily} fontSize={buttonTextStyles[type].fontSize}>
             {children}
         </TextButton>

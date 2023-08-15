@@ -24,5 +24,7 @@ interface TextButtonProps {
 }
 
 export const TextButton = styled.Text<TextButtonProps>`
+    font-size: ${({fontSize})=>fontSize};
+    font-family: ${({fontFamily})=>fontFamily};
     color: ${({textColor})=>textColor};
 `
