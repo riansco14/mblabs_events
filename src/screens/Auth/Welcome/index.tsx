@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar"
 import {useNavigation} from "@react-navigation/native"
 import { AuthStackParam } from "../../../config/navigation/routes"
 
+import Logo from "../../../assets/ilustrations/logoEventsColor.svg";
 
 export function Welcome (){
     const theme = useTheme()
@@ -24,9 +25,10 @@ export function Welcome (){
             backgroundColor={theme.colors.primary} 
             style="light"
             ></StatusBar>
+            <Logo width={120} height={120} />
             <Heading 
                 type="h2"
-                style={{marginTop: 80}}
+                style={{marginTop: 0}}
             >
                 Bem vindo!
             </Heading>
