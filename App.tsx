@@ -1,26 +1,29 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 
-import React, { useCallback } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { ThemeProvider } from 'styled-components/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import * as SplashScreen from "expo-splash-screen"
+import React, { useCallback } from "react";
+import { StatusBar } from "expo-status-bar";
+import { ThemeProvider } from "styled-components/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import * as SplashScreen from "expo-splash-screen";
 
-
-import theme from './src/config/styles/theme';
-import { Routes } from './src/routes';
-import { useFonts } from 'expo-font';
-
+import theme from "./src/config/styles/theme";
+import { Routes } from "./src/routes";
+import { useFonts } from "expo-font";
+import { Provider } from "react-redux";
+import { store } from "./src/store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function App() {
+let persistor = persistStore(store)
 
+export default function App() {
   const [fontsLoaded, fontError] = useFonts({
-    'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
-    'Inter-Medium': require('./assets/fonts/Inter-Medium.ttf'),
-    'Inter-SemiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
-    'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
+    "Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
+    "Inter-Medium": require("./assets/fonts/Inter-Medium.ttf"),
+    "Inter-SemiBold": require("./assets/fonts/Inter-SemiBold.ttf"),
+    "Inter-Bold": require("./assets/fonts/Inter-Bold.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -33,14 +36,15 @@ export default function App() {
     return null;
   }
 
-
-
-  return (<ThemeProvider theme={theme}>
-    <SafeAreaView style={{flex: 1}} onLayout={onLayoutRootView}>
-      <Routes/>
-      <StatusBar style="auto" />
-      </SafeAreaView>
-  </ThemeProvider>
-    
+  return (
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+          <Routes />
+        </SafeAreaView>
+      </PersistGate>
+      </Provider>
+    </ThemeProvider>
   );
 }
