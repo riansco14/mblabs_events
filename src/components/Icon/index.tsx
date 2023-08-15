@@ -8,7 +8,7 @@ import Share from "../../assets/icons/share.svg";
 import Ticket from "../../assets/icons/ticket.svg";
 import User from "../../assets/icons/user.svg";
 
-enum IconNames {
+export enum IconNames {
   heart = "heart",
   home = "home",
   map_pin = "map_pin",
