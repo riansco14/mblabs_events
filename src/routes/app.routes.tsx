@@ -1,10 +1,13 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Dashboard } from "../screens/App/Dashboard";
+import { Home } from "../screens/App/Home";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MenuCustomIcon } from "../components/MenuCustomIcon";
 import { useTheme } from "styled-components";
+import { Tickets } from "../screens/App/Tickets";
+import { Favorites } from "../screens/App/Favorites";
+import { UserInfo } from "../screens/App/UserInfo";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -27,7 +30,7 @@ function BottomTabs() {
 
       <Tab.Screen
         name="Home"
-        component={Dashboard}
+        component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MenuCustomIcon
@@ -41,7 +44,7 @@ function BottomTabs() {
       />
       <Tab.Screen
         name="Ticket"
-        component={Dashboard}
+        component={Tickets}
         options={{
           tabBarIcon: ({ color, focused, size }) => (
             <MenuCustomIcon
@@ -55,7 +58,7 @@ function BottomTabs() {
       />
       <Tab.Screen
         name="Favorites"
-        component={Dashboard}
+        component={Favorites}
         options={{
           tabBarIcon: ({ color, focused, size }) => (
             <MenuCustomIcon
@@ -69,7 +72,7 @@ function BottomTabs() {
       />
       <Tab.Screen
         name="UserInfo"
-        component={Dashboard}
+        component={UserInfo}
         options={{
           tabBarIcon: ({ color, focused, size }) => (
             <MenuCustomIcon
