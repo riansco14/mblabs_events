@@ -16,13 +16,40 @@ import { Switch, TextInput } from "react-native-gesture-handler";
 
 import Logo from "../../../assets/ilustrations/logoEventsColor.svg";
 import { StatusBar } from "expo-status-bar";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
+import { setUserEmailRemember } from "../../../store/user/userSlice";
 
 export function Login() {
   const theme = useTheme();
-  const [rememberPassword, setRememberPassword] = useState(true);
+
+  const userRemember = useAppSelector((state) => state.user.userRemember);
+  const dispatch = useAppDispatch();
+
+
+
+  const [email, setEmail] = useState(userRemember.email || "");
+  const [password, setPassword] = useState("");
+
+  const [rememberPassword, setRememberPassword] = useState(userRemember.rememberStatus || false);
 
   const refPasswordInput = useRef<TextInput | null>();
-  function handleLogin() {}
+
+
+  function handleLogin() {
+    if (rememberPassword) {
+      dispatch(setUserEmailRemember(email));
+    }
+  }
+
+  function handleSwitchRememberEmail() {
+    setRememberPassword(oldState=>{
+      
+      if(oldState){
+        dispatch(setUserEmailRemember(""));
+      }
+      return !oldState
+    })
+  }
 
   return (
     <Container>
@@ -45,6 +72,8 @@ export function Login() {
             E-mail
           </Text>
           <EditText
+            value={email}
+            onChangeText={setEmail}
             placeholder="name@example.com"
             returnKeyType="next"
             onSubmitEditing={() => refPasswordInput.current?.focus()}
@@ -57,10 +86,16 @@ export function Login() {
           >
             Senha
           </Text>
-          <EditText ref={refPasswordInput} placeholder="Enter your password" />
+          <EditText
+            ref={refPasswordInput}
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Enter your password"
+            secureTextEntry={true}
+          />
           <RememberPasswordContainer>
             <Text type="default" color={theme.colors.font_grey}>
-              Lembrar senha
+              Lembrar e-mail
             </Text>
             <Switch
               trackColor={{
@@ -68,9 +103,7 @@ export function Login() {
                 true: theme.colors.primary,
               }}
               thumbColor={theme.colors.white}
-              onValueChange={() => {
-                setRememberPassword((oldState) => !oldState);
-              }}
+              onValueChange={handleSwitchRememberEmail}
               value={rememberPassword}
             />
           </RememberPasswordContainer>
