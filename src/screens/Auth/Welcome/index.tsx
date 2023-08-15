@@ -7,9 +7,17 @@ import { Text } from "../../../components/Text"
 import { useTheme } from "styled-components"
 import { Button } from "../../../components/Button"
 import { StatusBar } from "expo-status-bar"
+import {useNavigation} from "@react-navigation/native"
+import { AuthStackParam } from "../../../config/navigation/routes"
+
 
 export function Welcome (){
     const theme = useTheme()
+    const navigation = useNavigation<AuthStackParam>()
+
+    function handleLogin() {
+        navigation.navigate("Login")
+    }
 
     return(<Container>
         <StatusBar 
@@ -38,6 +46,8 @@ export function Welcome (){
                 textColor={theme.colors.white}
 
                 style={{marginTop: 100}}
+
+                onPress={handleLogin}
                 >
                     Logar
             </Button>
