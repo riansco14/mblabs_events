@@ -1,15 +1,11 @@
 import React from "react"
 import { Container } from "./styles"
-import {TextInputProps} from "react-native"
+import {TextInputProps, TextInput} from "react-native"
 import { useTheme } from "styled-components"
 
-interface EditTextProps extends TextInputProps {
-
-
-}
-export function EditText ({...rest}:EditTextProps){
+export const EditText = React.forwardRef((props: TextInputProps, ref: React.Ref<TextInput>) =>{
     const theme = useTheme()
-    return(<Container placeholderTextColor={theme.colors.placeholder_grey} {...rest}>
+    return(<Container ref={ref} placeholderTextColor={theme.colors.placeholder_grey} {...props}>
 
     </Container>)
-}
+})
