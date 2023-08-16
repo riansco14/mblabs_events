@@ -2,16 +2,15 @@ import React from "react"
 import { Container } from "./styles"
 
 import { useTheme } from 'styled-components'
-import {StyleProp,ViewStyle } from "react-native"
+import {TextProps } from "react-native"
 
-interface TextProps{
+interface TextCustomProps extends TextProps{
     children: React.ReactNode
     type: "default" | "defaultBold" | "italic" | "interlined" | "small" 
     color: string
-    style?: StyleProp<ViewStyle>
 }
 
-export function Text ({children, type = "default", color = "#000", style}: TextProps){
+export function Text ({children, type = "default", color = "#000", style}: TextCustomProps){
     const theme = useTheme()
     const headingStyles = {
         default : {
