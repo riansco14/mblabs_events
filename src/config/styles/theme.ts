@@ -12,7 +12,9 @@ export default {
 
         placeholder_grey: "#C0BCBC",
         menu_active: "#000",
-        menu_inactive: "#BDBDBD"
+        menu_inactive: "#BDBDBD",
+
+        blue: "#2854C6"
     },
     fonts: {
         regular: 'Inter-Regular',
