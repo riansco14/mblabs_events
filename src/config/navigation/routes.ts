@@ -9,7 +9,8 @@ type AuthStackParamList = {
 
 
 type AppStackParamList = {
-    Dashboard: undefined;
+    BottomTabs: undefined;
+    TicketInfo: undefined;
 }
 
 export type AuthStackParam = CompositeNavigationProp<StackNavigationProp<AuthStackParamList>, BottomTabNavigationProp<AppStackParamList>>
