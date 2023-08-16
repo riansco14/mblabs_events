@@ -12,6 +12,7 @@ import Calendar from "../../assets/icons/calendar.svg";
 import DollarSign from "../../assets/icons/dollar_sign.svg";
 import Edit from "../../assets/icons/edit.svg";
 import ChevronRight from "../../assets/icons/chevron_right.svg";
+import TicketFill from "../../assets/icons/ticket_fill.svg";
 
 export enum IconNames {
   heart = "heart",
@@ -24,7 +25,8 @@ export enum IconNames {
   calendar = "calendar",
   dollar_sign = "dollar_sign",
   edit = "edit",
-  chevron_right = "chevron_right"
+  chevron_right = "chevron_right",
+  ticket_fill = "ticket_fill"
 }
 
 type IconNamesType = `${IconNames}`;
@@ -65,5 +67,7 @@ export function Icon({
       return <Edit color={color} width={width} height={height} />;
     case IconNames.chevron_right:
       return <ChevronRight color={color} width={width} height={height} />;
+    case IconNames.ticket_fill:
+      return <TicketFill color={color} width={width} height={height} />;
   }
 }
