@@ -94,6 +94,9 @@ export function Login() {
             onChangeText={setPassword}
             placeholder="Enter your password"
             secureTextEntry={true}
+            returnKeyType="done"
+            onSubmitEditing={handleLogin}
+            blurOnSubmit={false}
           />
           <RememberPasswordContainer>
             <Text type="default" color={theme.colors.font_grey}>
