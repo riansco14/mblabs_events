@@ -1,6 +1,6 @@
 import styled from "styled-components/native"
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
 
 `
 
@@ -34,6 +34,8 @@ export const LocationEventContainer = styled.View`
 export const ButtonsContainer = styled.View`
     flex-direction: row;
     justify-content: flex-end;
+
+    margin-top: -12px;
 `
 
 

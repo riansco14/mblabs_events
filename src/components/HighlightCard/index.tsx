@@ -8,11 +8,20 @@ import {
 } from "./styles";
 import { Text } from "../Text";
 import { useTheme } from "styled-components";
-import { ViewProps } from "react-native";
 import { Icon } from "../Icon";
 import { SocialButton } from "../SocialButton";
+import { TouchableOpacityProps } from "react-native";
 
-export function HighlightCard({ ...rest }: ViewProps) {
+
+interface EventCardProps extends TouchableOpacityProps {
+  idEvent: number
+  dateString: string
+  eventName: string
+  localName: string
+}
+
+
+export function HighlightCard({idEvent, dateString, eventName, localName, ...rest }: EventCardProps) {
   const theme = useTheme();
 
   return (
@@ -20,12 +29,12 @@ export function HighlightCard({ ...rest }: ViewProps) {
       <ImageHighlight source={require("../../../database/banda1.png")}>
         <EventInfoContainer>
           <Text type="small" color={theme.colors.font_dark}>
-            Mon, Apr 18 · 21:00 Pm{" "}
+            {dateString}
           </Text>
           <Text type="defaultBold" color={theme.colors.font_dark}>
-            La Rosalia
+            {eventName}
           </Text>
-          <LocationEventContainer>
+          <LocationEventContainer style={{marginTop: 4}}>
             <Icon
                 name="map_pin"
                 color={theme.colors.font_dark}
@@ -33,7 +42,7 @@ export function HighlightCard({ ...rest }: ViewProps) {
                 height={14}
               />
             <Text type="small" color={theme.colors.font_dark} style={{marginLeft: 4}}>
-              Palau Sant Jordi, Barcelona{" "}
+              {localName}
             </Text>
           </LocationEventContainer>
           <ButtonsContainer>
