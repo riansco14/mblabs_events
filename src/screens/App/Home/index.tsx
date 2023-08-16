@@ -6,30 +6,41 @@ import { HighlightCard } from "../../../components/HighlightCard";
 import { FlatList } from "react-native-gesture-handler";
 import { EventCard } from "../../../components/EventCard";
 import { View } from "react-native";
+import { EventCardType } from "../../../common/types";
 
 export function Home() {
   const theme = useTheme();
 
-  const events = [
+  const events: EventCardType[] = [
     {
-      id: 1,
+      idEvent: 0,
+      dateString: "Mon, Apr 18 · 21:00 Pm",
+      eventName: "La Rosalia",
+      localName: "Razzmatazz",
+      highlight: true
+    },
+    {
+      idEvent: 1,
       dateString: "Thu, Apr 19 · 20.00 Pm",
       eventName: "The Kooks",
       localName: "Razzmatazz",
     },
     {
-      id: 2,
+      idEvent: 2,
       dateString: "Fri, Apr 22 · 21.00 Pm",
       eventName: "The Wombats",
       localName: "Sala Apolo",
     },
     {
-      id: 3,
+      idEvent: 3,
       dateString: "Mon, Apr 25  · 17.30",
       eventName: "Foster The People",
       localName: "La Monumental",
     },
   ];
+
+  const eventHighlight = events.find(item => item.highlight === true)
+  const eventsCommon = events.filter(item => item.highlight != true)
 
   return (
     <Container>
@@ -43,10 +54,10 @@ export function Home() {
       >
         Popular em Barcelona
       </Text>
-      <HighlightCard style={{ marginTop: 20 }}></HighlightCard>
+      <HighlightCard {...eventHighlight} style={{ marginTop: 20 }}></HighlightCard>
 
       <FlatList
-        data={events}
+        data={eventsCommon}
         renderItem={({ item }) => <EventCard {...item} />}
         style={{ marginTop: 20 }}
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}

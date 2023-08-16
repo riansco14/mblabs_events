@@ -3,3 +3,12 @@ export type UserType = {
     email: string
     username: string
   };
+
+  
+export interface EventCardType {
+  idEvent: number
+  dateString: string
+  eventName: string
+  localName: string
+  highlight?: boolean
+}
