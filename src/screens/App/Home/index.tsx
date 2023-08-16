@@ -7,9 +7,12 @@ import { FlatList } from "react-native-gesture-handler";
 import { EventCard } from "../../../components/EventCard";
 import { View } from "react-native";
 import { EventCardType } from "../../../common/types";
+import { useNavigation } from "@react-navigation/native";
+import { AuthStackParam } from "../../../config/navigation/routes";
 
 export function Home() {
   const theme = useTheme();
+  const navigation = useNavigation<AuthStackParam>()
 
   const events: EventCardType[] = [
     {
@@ -42,6 +45,11 @@ export function Home() {
   const eventHighlight = events.find(item => item.highlight === true)
   const eventsCommon = events.filter(item => item.highlight != true)
 
+
+  function handleEventInfo(){
+    navigation.navigate("TicketInfo")
+  }
+
   return (
     <Container>
       <Text type="small" color={theme.colors.font_grey}>
@@ -54,7 +62,7 @@ export function Home() {
       >
         Popular em Barcelona
       </Text>
-      <HighlightCard {...eventHighlight} style={{ marginTop: 20 }}></HighlightCard>
+      <HighlightCard {...eventHighlight} style={{ marginTop: 20 }} onPress={handleEventInfo} />
 
       <FlatList
         data={eventsCommon}
