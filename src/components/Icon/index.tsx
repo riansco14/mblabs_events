@@ -7,6 +7,9 @@ import Map_pin from "../../assets/icons/map_pin.svg";
 import Share from "../../assets/icons/share.svg";
 import Ticket from "../../assets/icons/ticket.svg";
 import User from "../../assets/icons/user.svg";
+import ArrowLeft from "../../assets/icons/arrow_left.svg";
+import Calendar from "../../assets/icons/calendar.svg";
+import DollarSign from "../../assets/icons/dollar_sign.svg";
 
 export enum IconNames {
   heart = "heart",
@@ -15,6 +18,9 @@ export enum IconNames {
   share = "share",
   ticket = "ticket",
   user = "user",
+  arrow_left = "arrow_left",
+  calendar = "calendar",
+  dollar_sign = "dollar_sign"
 }
 
 type IconNamesType = `${IconNames}`;
@@ -45,5 +51,11 @@ export function Icon({
       return <Ticket color={color} width={width} height={height} />;
     case IconNames.user:
       return <User color={color} width={width} height={height} />;
+    case IconNames.arrow_left:
+      return <ArrowLeft color={color} width={width} height={height} />;
+    case IconNames.calendar:
+      return <Calendar color={color} width={width} height={height} />;
+    case IconNames.dollar_sign:
+      return <DollarSign color={color} width={width} height={height} />;
   }
 }
