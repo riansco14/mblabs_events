@@ -16,7 +16,7 @@ export function SocialButton({name, color, ...rest}:SocialButtonProps) {
     <Container {...rest}>
       <Icon
         name={name}
-        color={theme.colors.font_grey}
+        color={color?color:theme.colors.font_grey}
         width={18}
         height={18}
       />
