@@ -1,6 +1,6 @@
 import React from "react";
 import {
-    ButtonsContainer,
+  ButtonsContainer,
   Container,
   EventImage,
   EventInfoContainer,
@@ -11,29 +11,35 @@ import { useTheme } from "styled-components";
 import { Icon } from "../Icon";
 import { SocialButton } from "../SocialButton";
 
-interface EventCardProps{
-    id: number
-    dateString: string
-    eventName: string
-    localName: string
+interface EventCardProps {
+  idEvent: number;
+  dateString: string;
+  eventName: string;
+  localName: string;
 }
 
-const temporarySwitchImages = (id: number)=>{
-    switch(id){
-        case 1:
-            return require("../../../database/banda2.png")
-        case 2:
-            return require("../../../database/banda3.png")
-        case 3:
-            return require("../../../database/banda4.png")
-    }
-}
+const temporarySwitchImages = (idEvent: number) => {
+  switch (idEvent) {
+    case 0:
+      return require("../../../database/banda1.png");
+    case 1:
+      return require("../../../database/banda2.png");
+    case 2:
+      return require("../../../database/banda3.png");
+    case 3:
+      return require("../../../database/banda4.png");
+  }
+};
 
-
-export function EventCard({id, dateString, eventName, localName}: EventCardProps) {
+export function EventCard({
+  idEvent,
+  dateString,
+  eventName,
+  localName,
+}: EventCardProps) {
   const theme = useTheme();
 
-  const image = temporarySwitchImages(id)
+  const image = temporarySwitchImages(idEvent);
   return (
     <Container>
       <EventImage source={image}></EventImage>
@@ -51,7 +57,11 @@ export function EventCard({id, dateString, eventName, localName}: EventCardProps
             width={14}
             height={14}
           />
-          <Text type="small" color={theme.colors.font_dark} style={{marginLeft: 4}}>
+          <Text
+            type="small"
+            color={theme.colors.font_dark}
+            style={{ marginLeft: 4 }}
+          >
             {localName}
           </Text>
         </LocationEventContainer>
