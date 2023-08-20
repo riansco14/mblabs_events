@@ -7,16 +7,18 @@ export type UserType = {
   
 export interface EventCardType {
   idEvent: number
-  dateString: string
-  datePeriod: string
   locationAddress: string
   locationGPS: {
     latitude: string
     longitude: string
     label: string
   }
+  dateInfo: {
+    startDate: number
+    endDate: number
+  }
   eventName: string
-  localName: string
+  locationName: string
   highlight?: boolean
   price: string
 }
