@@ -12,7 +12,6 @@ import {
 import { ScrollView, Animated } from "react-native";
 
 import DynamicHeader from "../../../../components/DynamicHeader";
-import { StatusBar } from "expo-status-bar";
 import { Text as TextCustom } from "../../../../components/Text";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Heading } from "../../../../components/Heading";
@@ -23,8 +22,9 @@ import { addOrRemoveEventFavorite } from "../../../../store/event/eventSlice";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackParam } from "../../../../config/navigation/routes";
 import { getEvent } from "../../../../../database/db";
-import { Linking, Platform } from "react-native";
-import { openMaps } from "../../../../services/system/System";
+import { createEventInCalendar, openMaps, shareEvent } from "../../../../services/system/System";
+
+import moment from "moment";
 
 export function TicketInfo({ route }) {
   const theme = useTheme();
@@ -32,7 +32,7 @@ export function TicketInfo({ route }) {
 
   let scrollOffsetY = useRef(new Animated.Value(0)).current;
   const { idEvent } = route.params;
-  const event = getEvent(idEvent);
+  const eventData = getEvent(idEvent);
 
   const eventsFavorites = useAppSelector(
     (state) => state.event.eventsFavorites
@@ -51,13 +51,13 @@ export function TicketInfo({ route }) {
 
   return (
     <Container>
-      <StatusBar backgroundColor={theme.colors.primary} style="light" />
       <DynamicHeader
         idEvent={idEvent}
         animHeaderValue={scrollOffsetY}
         onPressGoBack={handleGoBack}
         isLiked={eventsFavorites.includes(idEvent)}
         onPressLikeButton={() => handleAddOrRemoveFavorite(idEvent)}
+        onPressShareButton={() => shareEvent(eventData)}
       />
       <ScrollView
         scrollEventThrottle={4}
@@ -69,7 +69,7 @@ export function TicketInfo({ route }) {
         contentContainerStyle={{ height: 800 }}
       >
         <Content>
-          <Heading type="h4">{event.eventName}</Heading>
+          <Heading type="h4">{eventData.eventName}</Heading>
           <Section>
             <Icon
               name="calendar"
@@ -83,22 +83,30 @@ export function TicketInfo({ route }) {
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 24 }}
               >
-                {event.dateString}
+               {moment(eventData.dateInfo.startDate).format("ddd, MMM D · kk:mm").toUpperCase()}
               </TextCustom>
               <TextCustom
                 type="small"
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 20 }}
               >
-                {event.datePeriod}
+               {moment(eventData.dateInfo.startDate).format("kk:mm").toUpperCase()}{"\t-\t"}{moment(eventData.dateInfo.endDate).format("kk:mm").toUpperCase()}
               </TextCustom>
-              <TextCustom
-                type="small"
-                color={theme.colors.blue}
-                style={{ fontWeight: "bold", lineHeight: 14 }}
-              >
-                Adicionar ao calendário
-              </TextCustom>
+              <TouchableOpacity onPress={()=>{
+                createEventInCalendar({
+                  title: eventData.eventName,
+                  startDate: moment(eventData.dateInfo.startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+                  endDate: moment(eventData.dateInfo.endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
+                })
+              }}>
+                <TextCustom
+                  type="small"
+                  color={theme.colors.blue}
+                  style={{ fontWeight: "bold", lineHeight: 14 }}
+                >
+                  Adicionar ao calendário
+                </TextCustom>
+              </TouchableOpacity>
             </SectionInfo>
           </Section>
 
@@ -115,16 +123,16 @@ export function TicketInfo({ route }) {
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 24 }}
               >
-                {event.localName}
+                {eventData.locationName}
               </TextCustom>
               <TextCustom
                 type="small"
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 20 }}
               >
-                {event.locationAddress}
+                {eventData.locationAddress}
               </TextCustom>
-              <TouchableOpacity onPress={() => openMaps(event.locationGPS)}>
+              <TouchableOpacity onPress={() => openMaps(eventData.locationGPS)}>
                 <TextCustom
                   type="small"
                   color={theme.colors.blue}
@@ -193,7 +201,7 @@ export function TicketInfo({ route }) {
             color={theme.colors.font_dark}
             style={{ marginTop: 4 }}
           >
-            {event.price}
+            {eventData.price}
           </TextCustom>
         </FooterSection>
         <FooterSection>
