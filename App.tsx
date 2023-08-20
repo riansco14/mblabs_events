@@ -1,11 +1,10 @@
 import "react-native-gesture-handler";
 
 import React, { useCallback } from "react";
-import { StatusBar } from "expo-status-bar";
 import { ThemeProvider } from "styled-components/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
-
+import { StatusBar } from "expo-status-bar";
 import theme from "./src/config/styles/theme";
 import { Routes } from "./src/routes";
 import { useFonts } from "expo-font";
@@ -13,6 +12,10 @@ import { Provider } from "react-redux";
 import { store } from "./src/store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+
+import moment from "moment";
+import 'moment/locale/pt-br'
+moment.locale('pt-br');
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,6 +44,7 @@ export default function App() {
       <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+          <StatusBar backgroundColor={theme.colors.primary} style="light" />
           <Routes />
         </SafeAreaView>
       </PersistGate>
