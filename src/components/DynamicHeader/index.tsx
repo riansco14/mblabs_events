@@ -11,17 +11,25 @@ import {
 } from "react-native";
 import { SocialButton } from "../SocialButton";
 import { Icon } from "../Icon";
+import { getImage } from "../../../database/db";
 
 const Header_Max_Height = 200;
 const Header_Min_Height = 70;
 
-export default function DynamicHeader({ animHeaderValue }) {
+export default function DynamicHeader({
+  idEvent,
+  animHeaderValue,
+  onPressGoBack,
+  isLiked,
+  onPressLikeButton,
+}) {
   const animateHeaderHeight = animHeaderValue.interpolate({
     inputRange: [0, Header_Max_Height - Header_Min_Height],
     outputRange: [Header_Max_Height, Header_Min_Height],
     extrapolate: "clamp",
   });
-
+  const image = getImage(idEvent)
+  
   return (
     <Animated.View
       style={[
@@ -33,19 +41,38 @@ export default function DynamicHeader({ animHeaderValue }) {
     >
       <Animated.Image
         resizeMode="cover"
-        source={require("../../../database/banda1.png")}
-        width={Dimensions.get("window").width}
-        height={animateHeaderHeight}
+        source={image}
+        style={{width: "100%"}}
       />
       <View style={{ position: "absolute", bottom: 0, left: 0, width: "100%" }}>
-        <View style={{ flex: 1, flexDirection: "row", alignItems: "center" , paddingLeft: 10, paddingRight: 16, paddingBottom: 16, paddingTop: 16}}>
-          <View style={{flex: 1}}>
-            <TouchableOpacity>
-              <Icon name="arrow_left" width={24} height={24} color="white"></Icon>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            paddingLeft: 10,
+            paddingRight: 16,
+            paddingBottom: 16,
+            paddingTop: 16,
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity onPress={onPressGoBack}>
+              <Icon
+                name="arrow_left"
+                width={24}
+                height={24}
+                color="white"
+              ></Icon>
             </TouchableOpacity>
           </View>
           <View style={{ flexDirection: "row" }}>
-            <SocialButton name="heart" color="white" />
+            <SocialButton
+              name="heart"
+              color="white"
+              isLiked={isLiked}
+              onPress={onPressLikeButton}
+            />
             <SocialButton name="share" color="white" />
           </View>
         </View>
