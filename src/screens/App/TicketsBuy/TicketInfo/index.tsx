@@ -1,5 +1,13 @@
 import React, { useRef } from "react";
-import { Container, Content, Footer, FooterSection, Section, SectionAbout, SectionInfo } from "./styles";
+import {
+  Container,
+  Content,
+  Footer,
+  FooterSection,
+  Section,
+  SectionAbout,
+  SectionInfo,
+} from "./styles";
 
 import { ScrollView, Animated } from "react-native";
 
@@ -10,15 +18,47 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Heading } from "../../../../components/Heading";
 import { Icon } from "../../../../components/Icon";
 import { useTheme } from "styled-components";
+import { useAppDispatch, useAppSelector } from "../../../../store/hook";
+import { addOrRemoveEventFavorite } from "../../../../store/event/eventSlice";
+import { useNavigation } from "@react-navigation/native";
+import { AuthStackParam } from "../../../../config/navigation/routes";
+import { getEvent } from "../../../../../database/db";
+import { Linking, Platform } from "react-native";
+import { openMaps } from "../../../../services/system/System";
 
-export function TicketInfo() {
-  const theme = useTheme()
+export function TicketInfo({ route }) {
+  const theme = useTheme();
+  const navigation = useNavigation<AuthStackParam>();
+
   let scrollOffsetY = useRef(new Animated.Value(0)).current;
+  const { idEvent } = route.params;
+  const event = getEvent(idEvent);
+
+  const eventsFavorites = useAppSelector(
+    (state) => state.event.eventsFavorites
+  );
+  const dispatch = useAppDispatch();
+
+  function handleAddOrRemoveFavorite(idEvent: number) {
+    dispatch(addOrRemoveEventFavorite({ idEvent }));
+  }
+
+  function handleGoBack() {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  }
 
   return (
     <Container>
       <StatusBar backgroundColor={theme.colors.primary} style="light" />
-      <DynamicHeader animHeaderValue={scrollOffsetY} />
+      <DynamicHeader
+        idEvent={idEvent}
+        animHeaderValue={scrollOffsetY}
+        onPressGoBack={handleGoBack}
+        isLiked={eventsFavorites.includes(idEvent)}
+        onPressLikeButton={() => handleAddOrRemoveFavorite(idEvent)}
+      />
       <ScrollView
         scrollEventThrottle={4}
         onScroll={Animated.event(
@@ -29,7 +69,7 @@ export function TicketInfo() {
         contentContainerStyle={{ height: 800 }}
       >
         <Content>
-          <Heading type="h4">La Rosalia</Heading>
+          <Heading type="h4">{event.eventName}</Heading>
           <Section>
             <Icon
               name="calendar"
@@ -43,14 +83,14 @@ export function TicketInfo() {
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 24 }}
               >
-                Mon, Apr 18 · 21:00 Pm
+                {event.dateString}
               </TextCustom>
               <TextCustom
                 type="small"
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 20 }}
               >
-                21:00 Pm - 23.30 Pm
+                {event.datePeriod}
               </TextCustom>
               <TextCustom
                 type="small"
@@ -75,22 +115,24 @@ export function TicketInfo() {
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 24 }}
               >
-                Palau Sant Jordi
+                {event.localName}
               </TextCustom>
               <TextCustom
                 type="small"
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 20 }}
               >
-                Passeig Olímpic, 5-7, 08038 Barcelona
+                {event.locationAddress}
               </TextCustom>
-              <TextCustom
-                type="small"
-                color={theme.colors.blue}
-                style={{ fontWeight: "bold", lineHeight: 14 }}
-              >
-                Ver no mapa
-              </TextCustom>
+              <TouchableOpacity onPress={() => openMaps(event.locationGPS)}>
+                <TextCustom
+                  type="small"
+                  color={theme.colors.blue}
+                  style={{ fontWeight: "bold", lineHeight: 14 }}
+                >
+                  Ver no mapa
+                </TextCustom>
+              </TouchableOpacity>
             </SectionInfo>
           </Section>
 
@@ -151,7 +193,7 @@ export function TicketInfo() {
             color={theme.colors.font_dark}
             style={{ marginTop: 4 }}
           >
-            R$ 30,00
+            {event.price}
           </TextCustom>
         </FooterSection>
         <FooterSection>
@@ -172,4 +214,3 @@ export function TicketInfo() {
     </Container>
   );
 }
-
