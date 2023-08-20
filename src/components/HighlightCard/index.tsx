@@ -11,23 +11,21 @@ import { useTheme } from "styled-components";
 import { Icon } from "../Icon";
 import { SocialButton } from "../SocialButton";
 import { TouchableOpacityProps } from "react-native";
+import { EventCardType } from "../../common/types";
 
+import moment from "moment";
 interface EventCardProps extends TouchableOpacityProps {
-  idEvent: number;
-  dateString: string;
-  eventName: string;
-  localName: string;
+  eventData: EventCardType
   isLiked: boolean;
   onPressLikeButton: () => void;
+  onPressShareButton: () => void;
 }
 
 export function HighlightCard({
-  idEvent,
-  dateString,
-  eventName,
-  localName,
+  eventData,
   isLiked,
   onPressLikeButton,
+  onPressShareButton,
   ...rest
 }: EventCardProps) {
   const theme = useTheme();
@@ -37,10 +35,10 @@ export function HighlightCard({
       <ImageHighlight source={require("../../../database/banda1.png")}>
         <EventInfoContainer>
           <Text type="small" color={theme.colors.font_dark}>
-            {dateString}
+          {moment(eventData.dateInfo.startDate).format("ddd, MMM D · kk:mm").toUpperCase()}
           </Text>
           <Text type="defaultBold" color={theme.colors.font_dark}>
-            {eventName}
+            {eventData.eventName}
           </Text>
           <LocationEventContainer style={{ marginTop: 4 }}>
             <Icon
@@ -54,12 +52,12 @@ export function HighlightCard({
               color={theme.colors.font_dark}
               style={{ marginLeft: 4 }}
             >
-              {localName}
+              {eventData.locationName}
             </Text>
           </LocationEventContainer>
           <ButtonsContainer>
             <SocialButton name="heart" isLiked={isLiked} onPress={onPressLikeButton} />
-            <SocialButton name="share" style={{ marginLeft: 8 }} />
+            <SocialButton name="share" style={{ marginLeft: 8 }} onPress={onPressShareButton} />
           </ButtonsContainer>
         </EventInfoContainer>
       </ImageHighlight>

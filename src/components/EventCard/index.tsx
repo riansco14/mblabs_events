@@ -12,37 +12,37 @@ import { Icon } from "../Icon";
 import { SocialButton } from "../SocialButton";
 import { getImage } from "../../../database/db";
 import { TouchableOpacityProps } from "react-native";
+import { EventCardType } from "../../common/types";
 
+import moment from "moment";
 interface EventCardProps extends TouchableOpacityProps {
-  idEvent: number;
-  dateString: string;
-  eventName: string;
-  localName: string;
+  eventData: EventCardType;
   isLiked: boolean;
   onPressLikeButton: () => void;
+  onPressShareButton: () => void;
 }
 
 export function EventCard({
-  idEvent,
-  dateString,
-  eventName,
-  localName,
+  eventData,
   isLiked,
   onPressLikeButton,
+  onPressShareButton,
   ...rest
 }: EventCardProps) {
   const theme = useTheme();
 
-  const image = getImage(idEvent);
+  const image = getImage(eventData.idEvent);
   return (
     <Container {...rest}>
       <EventImage source={image}></EventImage>
       <EventInfoContainer>
         <Text type="small" color={theme.colors.font_dark}>
-          {dateString}
+          {moment(eventData.dateInfo.startDate)
+            .format("ddd, MMM D · kk:mm")
+            .toUpperCase()}
         </Text>
         <Text type="defaultBold" color={theme.colors.font_dark}>
-          {eventName}
+          {eventData.eventName}
         </Text>
         <LocationEventContainer>
           <Icon
@@ -56,7 +56,7 @@ export function EventCard({
             color={theme.colors.font_dark}
             style={{ marginLeft: 4 }}
           >
-            {localName}
+            {eventData.locationName}
           </Text>
         </LocationEventContainer>
       </EventInfoContainer>
@@ -66,7 +66,11 @@ export function EventCard({
           isLiked={isLiked}
           onPress={onPressLikeButton}
         />
-        <SocialButton name="share" style={{ marginLeft: 8 }} />
+        <SocialButton
+          name="share"
+          style={{ marginLeft: 8 }}
+          onPress={onPressShareButton}
+        />
       </ButtonsContainer>
     </Container>
   );

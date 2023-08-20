@@ -22,6 +22,7 @@ export default function DynamicHeader({
   onPressGoBack,
   isLiked,
   onPressLikeButton,
+  onPressShareButton
 }) {
   const animateHeaderHeight = animHeaderValue.interpolate({
     inputRange: [0, Header_Max_Height - Header_Min_Height],
@@ -73,7 +74,7 @@ export default function DynamicHeader({
               isLiked={isLiked}
               onPress={onPressLikeButton}
             />
-            <SocialButton name="share" color="white" />
+            <SocialButton name="share" color="white" onPress={onPressShareButton} />
           </View>
         </View>
       </View>
