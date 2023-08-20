@@ -15,7 +15,6 @@ import { Button } from "../../../components/Button";
 import { Switch, TextInput } from "react-native-gesture-handler";
 
 import Logo from "../../../assets/ilustrations/logoEventsColor.svg";
-import { StatusBar } from "expo-status-bar";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import { login, setUserEmailRemember } from "../../../store/user/userSlice";
 
@@ -55,10 +54,6 @@ export function Login() {
 
   return (
     <Container>
-      <StatusBar
-        backgroundColor={theme.colors.primary}
-        style="light"
-      ></StatusBar>
       <WrapperContainer>
         <FormContainer>
           <LogoContainer>

@@ -6,7 +6,6 @@ import WelcomePeople from "./../../../assets/ilustrations/welcomePeople.svg"
 import { Text } from "../../../components/Text"
 import { useTheme } from "styled-components"
 import { Button } from "../../../components/Button"
-import { StatusBar } from "expo-status-bar"
 import {useNavigation} from "@react-navigation/native"
 import { AuthStackParam } from "../../../config/navigation/routes"
 
@@ -21,10 +20,6 @@ export function Welcome (){
     }
 
     return(<Container>
-        <StatusBar 
-            backgroundColor={theme.colors.primary} 
-            style="light"
-            ></StatusBar>
             <Logo width={120} height={120} />
             <Heading 
                 type="h2"
