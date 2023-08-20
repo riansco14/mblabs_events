@@ -9,8 +9,12 @@ export interface EventCardType {
   idEvent: number
   dateString: string
   datePeriod: string
-  location: string
   locationAddress: string
+  locationGPS: {
+    latitude: string
+    longitude: string
+    label: string
+  }
   eventName: string
   localName: string
   highlight?: boolean
