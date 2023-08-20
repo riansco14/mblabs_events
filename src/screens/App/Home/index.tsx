@@ -9,45 +9,30 @@ import { View } from "react-native";
 import { EventCardType } from "../../../common/types";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackParam } from "../../../config/navigation/routes";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
+import { addOrRemoveEventFavorite } from "../../../store/event/eventSlice";
+import { getEvents } from "../../../../database/db";
 
 export function Home() {
   const theme = useTheme();
-  const navigation = useNavigation<AuthStackParam>()
+  const navigation = useNavigation<AuthStackParam>();
 
-  const events: EventCardType[] = [
-    {
-      idEvent: 0,
-      dateString: "Mon, Apr 18 · 21:00 Pm",
-      eventName: "La Rosalia",
-      localName: "Razzmatazz",
-      highlight: true
-    },
-    {
-      idEvent: 1,
-      dateString: "Thu, Apr 19 · 20.00 Pm",
-      eventName: "The Kooks",
-      localName: "Razzmatazz",
-    },
-    {
-      idEvent: 2,
-      dateString: "Fri, Apr 22 · 21.00 Pm",
-      eventName: "The Wombats",
-      localName: "Sala Apolo",
-    },
-    {
-      idEvent: 3,
-      dateString: "Mon, Apr 25  · 17.30",
-      eventName: "Foster The People",
-      localName: "La Monumental",
-    },
-  ];
+  const eventsFavorites = useAppSelector(
+    (state) => state.event.eventsFavorites
+  );
+  const dispatch = useAppDispatch();
 
-  const eventHighlight = events.find(item => item.highlight === true)
-  const eventsCommon = events.filter(item => item.highlight != true)
+  function handleAddOrRemoveFavorite(idEvent: number) {
+    dispatch(addOrRemoveEventFavorite({ idEvent }));
+  }
 
+  const events: EventCardType[] = getEvents()
 
-  function handleEventInfo(){
-    navigation.navigate("TicketInfo")
+  const eventHighlight = events.find((item) => item.highlight === true);
+  const eventsCommon = events.filter((item) => item.highlight != true);
+
+  function handleEventInfo(idEvent: number) {
+    navigation.navigate("TicketInfo", { idEvent});
   }
 
   return (
@@ -62,11 +47,28 @@ export function Home() {
       >
         Popular em Barcelona
       </Text>
-      <HighlightCard {...eventHighlight} style={{ marginTop: 20 }} onPress={handleEventInfo} />
+      <HighlightCard
+        {...eventHighlight}
+        style={{ marginTop: 20 }}
+        onPress={()=>handleEventInfo(eventHighlight.idEvent)}
+        isLiked={
+          eventsFavorites.includes(eventHighlight.idEvent)
+        }
+        onPressLikeButton={() => handleAddOrRemoveFavorite(eventHighlight.idEvent)}
+      />
 
       <FlatList
         data={eventsCommon}
-        renderItem={({ item }) => <EventCard {...item} />}
+        renderItem={({ item }) => (
+          <EventCard
+            {...item}
+            onPress={()=>handleEventInfo(item.idEvent)}
+            isLiked={
+              eventsFavorites.includes(item.idEvent)
+            }
+            onPressLikeButton={() => handleAddOrRemoveFavorite(item.idEvent)}
+          />
+        )}
         style={{ marginTop: 20 }}
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
       ></FlatList>

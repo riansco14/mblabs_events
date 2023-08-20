@@ -10,38 +10,32 @@ import { Text } from "../Text";
 import { useTheme } from "styled-components";
 import { Icon } from "../Icon";
 import { SocialButton } from "../SocialButton";
+import { getImage } from "../../../database/db";
+import { TouchableOpacityProps } from "react-native";
 
-interface EventCardProps {
+interface EventCardProps extends TouchableOpacityProps {
   idEvent: number;
   dateString: string;
   eventName: string;
   localName: string;
+  isLiked: boolean;
+  onPressLikeButton: () => void;
 }
-
-const temporarySwitchImages = (idEvent: number) => {
-  switch (idEvent) {
-    case 0:
-      return require("../../../database/banda1.png");
-    case 1:
-      return require("../../../database/banda2.png");
-    case 2:
-      return require("../../../database/banda3.png");
-    case 3:
-      return require("../../../database/banda4.png");
-  }
-};
 
 export function EventCard({
   idEvent,
   dateString,
   eventName,
   localName,
+  isLiked,
+  onPressLikeButton,
+  ...rest
 }: EventCardProps) {
   const theme = useTheme();
 
-  const image = temporarySwitchImages(idEvent);
+  const image = getImage(idEvent);
   return (
-    <Container>
+    <Container {...rest}>
       <EventImage source={image}></EventImage>
       <EventInfoContainer>
         <Text type="small" color={theme.colors.font_dark}>
@@ -67,7 +61,11 @@ export function EventCard({
         </LocationEventContainer>
       </EventInfoContainer>
       <ButtonsContainer>
-        <SocialButton name="heart" />
+        <SocialButton
+          name="heart"
+          isLiked={isLiked}
+          onPress={onPressLikeButton}
+        />
         <SocialButton name="share" style={{ marginLeft: 8 }} />
       </ButtonsContainer>
     </Container>

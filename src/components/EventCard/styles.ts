@@ -12,6 +12,7 @@ export const Container = styled.TouchableOpacity`
 export const EventImage = styled.Image`
     width: 90px;
     height: 84px;
+    border-radius: 10px;
 `
 
 

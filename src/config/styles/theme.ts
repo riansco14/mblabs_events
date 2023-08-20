@@ -14,7 +14,8 @@ export default {
         menu_active: "#000",
         menu_inactive: "#BDBDBD",
 
-        blue: "#2854C6"
+        blue: "#2854C6",
+        red: "#AF4035"
     },
     fonts: {
         regular: 'Inter-Regular',

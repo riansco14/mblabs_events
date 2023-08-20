@@ -4,38 +4,25 @@ import { Heading } from "../../../components/Heading";
 import { FlatList, View } from "react-native";
 import { EventCard } from "../../../components/EventCard";
 import { EventCardType } from "../../../common/types";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
+import { addOrRemoveEventFavorite } from "../../../store/event/eventSlice";
+import { getEvents } from "../../../../database/db";
 
 export function Favorites() {
-  const events: EventCardType[] = [
-    {
-      idEvent: 0,
-      dateString: "Mon, Apr 18 · 21:00 Pm",
-      eventName: "La Rosalia",
-      localName: "Razzmatazz",
-      highlight: true,
-    },
-    {
-      idEvent: 1,
-      dateString: "Thu, Apr 19 · 20.00 Pm",
-      eventName: "The Kooks",
-      localName: "Razzmatazz",
-    },
-    {
-      idEvent: 2,
-      dateString: "Fri, Apr 22 · 21.00 Pm",
-      eventName: "The Wombats",
-      localName: "Sala Apolo",
-    },
-    {
-      idEvent: 3,
-      dateString: "Mon, Apr 25  · 17.30",
-      eventName: "Foster The People",
-      localName: "La Monumental",
-    },
-  ];
+  const dispatch = useAppDispatch();
+  const eventsFavorites = useAppSelector(
+    (state) => state.event.eventsFavorites
+  );
 
-  const eventHighlight = events.find((item) => item.highlight === true);
-  const eventsCommon = events.filter((item) => item.highlight != true);
+  const events: EventCardType[] = getEvents()
+
+  const eventsCommon = events.filter(
+    (item) => !!eventsFavorites.find((itemStore) => itemStore === item.idEvent)
+  );
+
+  function handleAddOrRemoveFavorite(idEvent: number) {
+    dispatch(addOrRemoveEventFavorite({ idEvent }));
+  }
 
   return (
     <Container>
@@ -43,7 +30,15 @@ export function Favorites() {
 
       <FlatList
         data={eventsCommon}
-        renderItem={({ item }) => <EventCard {...item} />}
+        renderItem={({ item }) => (
+          <EventCard
+            {...item}
+            isLiked={
+              eventsFavorites.includes(item.idEvent)
+            }
+            onPressLikeButton={() => handleAddOrRemoveFavorite(item.idEvent)}
+          />
+        )}
         style={{ marginTop: 20 }}
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
       ></FlatList>
