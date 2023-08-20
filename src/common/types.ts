@@ -8,7 +8,11 @@ export type UserType = {
 export interface EventCardType {
   idEvent: number
   dateString: string
+  datePeriod: string
+  location: string
+  locationAddress: string
   eventName: string
   localName: string
   highlight?: boolean
+  price: string
 }
