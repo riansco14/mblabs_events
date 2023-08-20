@@ -12,6 +12,7 @@ import { AuthStackParam } from "../../../config/navigation/routes";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import { addOrRemoveEventFavorite } from "../../../store/event/eventSlice";
 import { getEvents } from "../../../../database/db";
+import { shareEvent } from "../../../services/system/System";
 
 export function Home() {
   const theme = useTheme();
@@ -26,13 +27,13 @@ export function Home() {
     dispatch(addOrRemoveEventFavorite({ idEvent }));
   }
 
-  const events: EventCardType[] = getEvents()
+  const events: EventCardType[] = getEvents();
 
   const eventHighlight = events.find((item) => item.highlight === true);
   const eventsCommon = events.filter((item) => item.highlight != true);
 
   function handleEventInfo(idEvent: number) {
-    navigation.navigate("TicketInfo", { idEvent});
+    navigation.navigate("TicketInfo", { idEvent });
   }
 
   return (
@@ -48,25 +49,26 @@ export function Home() {
         Popular em Barcelona
       </Text>
       <HighlightCard
-        {...eventHighlight}
+        eventData={eventHighlight}
         style={{ marginTop: 20 }}
-        onPress={()=>handleEventInfo(eventHighlight.idEvent)}
-        isLiked={
-          eventsFavorites.includes(eventHighlight.idEvent)
+        onPress={() => handleEventInfo(eventHighlight.idEvent)}
+        isLiked={eventsFavorites.includes(eventHighlight.idEvent)}
+        onPressLikeButton={() =>
+          handleAddOrRemoveFavorite(eventHighlight.idEvent)
         }
-        onPressLikeButton={() => handleAddOrRemoveFavorite(eventHighlight.idEvent)}
+
+        onPressShareButton={() => shareEvent(eventHighlight)}
       />
 
       <FlatList
         data={eventsCommon}
         renderItem={({ item }) => (
           <EventCard
-            {...item}
-            onPress={()=>handleEventInfo(item.idEvent)}
-            isLiked={
-              eventsFavorites.includes(item.idEvent)
-            }
+            eventData={item}
+            onPress={() => handleEventInfo(item.idEvent)}
+            isLiked={eventsFavorites.includes(item.idEvent)}
             onPressLikeButton={() => handleAddOrRemoveFavorite(item.idEvent)}
+            onPressShareButton={() => shareEvent(item)}
           />
         )}
         style={{ marginTop: 20 }}
