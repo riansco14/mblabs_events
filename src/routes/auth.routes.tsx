@@ -1,23 +1,22 @@
-import React from 'react'
-import { Login } from '../screens/Auth/Login'
-import { createStackNavigator } from '@react-navigation/stack'
-import { Welcome } from '../screens/Auth/Welcome'
+import React from "react";
+import { Login } from "../screens/Auth/Login";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Welcome } from "../screens/Auth/Welcome";
+import { Register } from "../screens/Auth/Register";
 
-const { Navigator, Screen } = createStackNavigator()
-
+const { Navigator, Screen } = createStackNavigator();
 
 export function AuthRoutes() {
-    return (
-        <Navigator initialRouteName="Welcome" screenOptions={{headerShown: false}}>
-            <Screen
-                name="Welcome"
-                component={Welcome}
-            />
+  return (
+    <Navigator
+      initialRouteName="Welcome"
+      screenOptions={{ headerShown: false }}
+    >
+      <Screen name="Welcome" component={Welcome} />
 
-            <Screen
-                name="Login"
-                component={Login}
-            />
-        </Navigator>
-    )
+      <Screen name="Register" component={Register} />
+
+      <Screen name="Login" component={Login} />
+    </Navigator>
+  );
 }

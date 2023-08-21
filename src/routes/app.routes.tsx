@@ -9,6 +9,7 @@ import { Tickets } from "../screens/App/Tickets";
 import { Favorites } from "../screens/App/Favorites";
 import { UserInfo } from "../screens/App/UserInfo";
 import { TicketInfo } from "../screens/App/TicketsBuy/TicketInfo";
+import { SelectCity } from "../screens/App/SelectCity";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -94,6 +95,7 @@ export function AppRoutes() {
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="BottomTabs" component={BottomTabs} />
       <Screen name="TicketInfo" component={TicketInfo} />
+      <Screen name="SelectCity" component={SelectCity} />
     </Navigator>
   );
 }

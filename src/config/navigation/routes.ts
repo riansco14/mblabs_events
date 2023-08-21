@@ -4,12 +4,14 @@ import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
 type AuthStackParamList = {
   Welcome: undefined;
+  Register: undefined;
   Login: undefined;
 };
 
 type AppStackParamList = {
   BottomTabs: undefined;
   TicketInfo: { idEvent: number };
+  SelectCity: undefined;
 };
 
 export type AuthStackParam = CompositeNavigationProp<
