@@ -14,6 +14,9 @@ import Edit from "../../assets/icons/edit.svg";
 import ChevronRight from "../../assets/icons/chevron_right.svg";
 import TicketFill from "../../assets/icons/ticket_fill.svg";
 import HeartFill from "../../assets/icons/heart_fill.svg";
+import ChevronDown from "../../assets/icons/chevron_down.svg";
+import Search from "../../assets/icons/search.svg";
+
 export enum IconNames {
   heart = "heart",
   home = "home",
@@ -27,7 +30,9 @@ export enum IconNames {
   edit = "edit",
   chevron_right = "chevron_right",
   ticket_fill = "ticket_fill",
-  heart_fill = "heart_fill"
+  heart_fill = "heart_fill",
+  chevron_down = "chevron_down",
+  search = "search",
 }
 
 type IconNamesType = `${IconNames}`;
@@ -72,5 +77,9 @@ export function Icon({
       return <TicketFill color={color} width={width} height={height} />;
     case IconNames.heart_fill:
       return <HeartFill color={color} width={width} height={height} />;
+    case IconNames.chevron_down:
+      return <ChevronDown color={color} width={width} height={height} />;
+    case IconNames.search:
+      return <Search color={color} width={width} height={height} />;
   }
 }
