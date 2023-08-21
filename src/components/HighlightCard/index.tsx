@@ -14,6 +14,7 @@ import { TouchableOpacityProps } from "react-native";
 import { EventCardType } from "../../common/types";
 
 import moment from "moment";
+import { getImage } from "../../../database/db";
 interface EventCardProps extends TouchableOpacityProps {
   eventData: EventCardType
   isLiked: boolean;
@@ -29,10 +30,10 @@ export function HighlightCard({
   ...rest
 }: EventCardProps) {
   const theme = useTheme();
-
+  const image = getImage(eventData.idEvent)
   return (
     <Container {...rest}>
-      <ImageHighlight source={require("../../../database/banda1.png")}>
+      <ImageHighlight source={image}>
         <EventInfoContainer>
           <Text type="small" color={theme.colors.font_dark}>
           {moment(eventData.dateInfo.startDate).format("ddd, MMM D · kk:mm").toUpperCase()}
