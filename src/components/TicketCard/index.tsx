@@ -9,15 +9,19 @@ import {
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 import { useTheme } from "styled-components";
+import { TicketType } from "../../common/types";
+import { getImage } from "../../../database/db";
+import moment from "moment";
 
 interface TicketCardProps {
+  dataTicket: TicketType;
   isPast?: boolean;
 }
 
-export function TicketCard({ isPast }: TicketCardProps) {
+export function TicketCard({ dataTicket, isPast }: TicketCardProps) {
   const theme = useTheme();
-  const image = isPast ?  require("../../../database/banda1grey.png"): require("../../../database/banda1.png")
-  
+  const image = getImage(dataTicket.event.idEvent);
+
   return (
     <Container>
       <TicketInfoContainer>
@@ -30,10 +34,12 @@ export function TicketCard({ isPast }: TicketCardProps) {
           />
           <TicketInfoWrapper>
             <Text type="defaultBold" color={theme.colors.black}>
-              La Rosalia
+              {dataTicket.event.eventName}
             </Text>
             <Text type="small" color={theme.colors.font_dark}>
-              Mon, Apr 18 · 21:00 Pm{" "}
+              {moment(dataTicket.event.dateInfo.startDate)
+                .format("ddd, MMM D · kk:mm")
+                .toUpperCase()}
             </Text>
           </TicketInfoWrapper>
         </TicketInfoSection>
@@ -42,7 +48,7 @@ export function TicketCard({ isPast }: TicketCardProps) {
           color={theme.colors.black}
           style={{ marginTop: 6, marginLeft: 6 }}
         >
-          2 Ingressos
+          {dataTicket.amount} {dataTicket.amount > 1 ? "Ingressos" : "Ingresso"}
         </Text>
       </TicketInfoContainer>
       <EventImage source={image} />
