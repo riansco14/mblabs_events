@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, HeadingContainer } from "./styles";
+import { Container, FavoritesEmptyContainer, HeadingContainer } from "./styles";
 import { Heading } from "../../../components/Heading";
 import { FlatList, View } from "react-native";
 import { EventCard } from "../../../components/EventCard";
@@ -10,6 +10,7 @@ import { getEvents } from "../../../../database/db";
 import theme from "../../../config/styles/theme";
 import { Text } from "../../../components/Text";
 import { shareEvent } from "../../../services/system/System";
+import { Icon } from "../../../components/Icon";
 
 export function Favorites() {
   const dispatch = useAppDispatch();
@@ -49,24 +50,48 @@ export function Favorites() {
           </Text>
         ) : null}
       </HeadingContainer>
-
-      <FlatList
-        data={eventsCommon}
-        renderItem={({ item }) => (
-          <EventCard
-            eventData={item}
-            isLiked={eventsFavorites.includes(item.idEvent)}
-            onPressLikeButton={() => {
-              handleAddOrRemoveFavorite(item.idEvent);
-            }}
-            onPressShareButton={()=>{
-              shareEvent(item)
-            }}
+      {(eventsCommon && eventsCommon.length>0) ? (
+        <FlatList
+          data={eventsCommon}
+          renderItem={({ item }) => (
+            <EventCard
+              eventData={item}
+              isLiked={eventsFavorites.includes(item.idEvent)}
+              onPressLikeButton={() => {
+                handleAddOrRemoveFavorite(item.idEvent);
+              }}
+              onPressShareButton={() => {
+                shareEvent(item);
+              }}
+            />
+          )}
+          style={{ marginTop: 20 }}
+          ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
+        ></FlatList>
+      ) : (
+        <FavoritesEmptyContainer>
+          <Icon
+            name="heart_fill"
+            color={theme.colors.font_grey}
+            width={90}
+            height={90}
           />
-        )}
-        style={{ marginTop: 20 }}
-        ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-      ></FlatList>
+          <Text
+            type="defaultBold"
+            color={theme.colors.black}
+            style={{ textAlign: "center", marginTop: 12 }}
+          >
+            Sem favoritos ainda
+          </Text>
+          <Text
+            type="default"
+            color={theme.colors.black}
+            style={{ textAlign: "center", marginTop: 6,  }}
+          >
+            Adicione favoritos clicando no icone de coração na seção de Eventos
+          </Text>
+        </FavoritesEmptyContainer>
+      )}
     </Container>
   );
 }

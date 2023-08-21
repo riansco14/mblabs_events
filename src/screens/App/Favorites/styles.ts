@@ -10,3 +10,10 @@ export const Container = styled.View`
 export const HeadingContainer = styled.View`
     flex-direction: row;
 `
+
+
+export const FavoritesEmptyContainer = styled.View`
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+`
