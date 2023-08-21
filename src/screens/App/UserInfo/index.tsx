@@ -11,12 +11,15 @@ import { Text } from "../../../components/Text";
 import { useTheme } from "styled-components";
 import { Avatar } from "../../../components/Avatar";
 import { ButtonUnderlined } from "../../../components/ButtonUnderlined";
-import { useAppDispatch } from "../../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import { logout } from "../../../store/user/userSlice";
 import { Icon } from "../../../components/Icon";
 
 export function UserInfo() {
   const theme = useTheme();
+
+  const citySelected = useAppSelector((state) => state.user.userCity);
+
   const dispatch = useAppDispatch()
 
 
@@ -46,7 +49,7 @@ export function UserInfo() {
             Cidade atual
           </Text>
           <Text type="small" color={theme.colors.black}>
-            Recife
+            {citySelected.city}
           </Text>
         </ConfigButton>
         <ConfigButton>
