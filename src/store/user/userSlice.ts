@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { UserType } from '../../common/types'
+import { CityType, UserType } from '../../common/types'
 
 interface UserState {
   userRemember: {
@@ -9,6 +9,7 @@ interface UserState {
     rememberStatus: boolean
   }
   userLogged?: UserType
+  userCity?: CityType
 }
 
 const initialState: UserState = {
@@ -17,6 +18,11 @@ const initialState: UserState = {
     rememberStatus: false
   },
   userLogged: null,
+  userCity: {
+    id: 0,
+    city: "",
+    state: ""
+  }
 }
 
 interface UserLoginType{
@@ -48,10 +54,13 @@ export const userSlice = createSlice({
       state.userRemember.email = action.payload
       state.userRemember.rememberStatus = action.payload ? true: false
     },
+    setCity: (state, action: PayloadAction<CityType>) => {
+      state.userCity = action.payload
+    },
   },
 })
 
-export const { login, logout, setUserEmailRemember } = userSlice.actions
+export const { login, logout, setUserEmailRemember, setCity } = userSlice.actions
 
 export const selectUser = (state: RootState) => state.user
 
