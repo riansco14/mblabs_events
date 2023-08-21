@@ -18,38 +18,53 @@ import Logo from "../../../assets/ilustrations/logoEventsColor.svg";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import { login, setUserEmailRemember } from "../../../store/user/userSlice";
 
+import * as Yup from "yup";
+import { useFormik } from "formik";
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Insira um e-mail válido")
+    .required("O e-mail é obrigatório"),
+  password: Yup.string().required("A senha é obrigatória"),
+});
+
 export function Login() {
   const theme = useTheme();
-
   const userRemember = useAppSelector((state) => state.user.userRemember);
+
+  const formik = useFormik({
+    initialValues: {
+      email: userRemember.email ? userRemember.email : "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      if (rememberPassword) {
+        dispatch(setUserEmailRemember(values.email));
+      }
+  
+      dispatch(login(values));
+    },
+  });
+
   const dispatch = useAppDispatch();
-
-
 
   const [email, setEmail] = useState(userRemember.email || "");
   const [password, setPassword] = useState("");
 
-  const [rememberPassword, setRememberPassword] = useState(userRemember.rememberStatus || false);
+  const [rememberPassword, setRememberPassword] = useState(
+    userRemember.rememberStatus || false
+  );
 
   const refPasswordInput = useRef<TextInput | null>();
 
-
-  function handleLogin() {
-    if (rememberPassword) {
-      dispatch(setUserEmailRemember(email));
-    }
-
-    dispatch(login({email, password}))
-  }
-
   function handleSwitchRememberEmail() {
-    setRememberPassword(oldState=>{
-      
-      if(oldState){
+    setRememberPassword((oldState) => {
+      if (oldState) {
         dispatch(setUserEmailRemember(""));
       }
-      return !oldState
-    })
+      return !oldState;
+    });
   }
 
   return (
@@ -69,8 +84,9 @@ export function Login() {
             E-mail
           </Text>
           <EditText
-            value={email}
-            onChangeText={setEmail}
+            value={formik.values.email}
+            onChangeText={formik.handleChange("email")}
+            error={formik.errors.email}
             placeholder="name@example.com"
             returnKeyType="next"
             onSubmitEditing={() => refPasswordInput.current?.focus()}
@@ -85,12 +101,13 @@ export function Login() {
           </Text>
           <EditText
             ref={refPasswordInput}
-            value={password}
-            onChangeText={setPassword}
+            value={formik.values.password}
+            onChangeText={formik.handleChange("password")}
+            error={formik.errors.password}
             placeholder="Enter your password"
             secureTextEntry={true}
             returnKeyType="done"
-            onSubmitEditing={handleLogin}
+            onSubmitEditing={()=>formik.submitForm()}
             blurOnSubmit={false}
           />
           <RememberPasswordContainer>
@@ -113,7 +130,7 @@ export function Login() {
             type="default"
             backgroundColor={theme.colors.primary}
             textColor={theme.colors.white}
-            onPress={handleLogin}
+            onPress={()=>formik.submitForm()}
           >
             Logar
           </Button>
