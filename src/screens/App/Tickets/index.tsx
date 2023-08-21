@@ -6,6 +6,7 @@ import theme from "../../../config/styles/theme";
 import { Text } from "../../../components/Text";
 import { FlatList } from "react-native-gesture-handler";
 import { TicketCard } from "../../../components/TicketCard";
+import { getTickets } from "../../../../database/db";
 
 enum TicketMenu {
   upcoming = 0,
@@ -14,6 +15,12 @@ enum TicketMenu {
 
 export function Tickets() {
   const [currentMenu, setCurrentMenu] = useState(TicketMenu.upcoming);
+
+  const tickets = getTickets();
+
+  const currentTickets = tickets.filter((item) => item.past === false);
+  const oldTickets = tickets.filter((item) => item.past === true);
+
   return (
     <Container>
       <Header>
@@ -59,11 +66,15 @@ export function Tickets() {
       </Header>
 
       <FlatList
-        data={[1,2,3]}
-        renderItem={({ item }) => <TicketCard isPast={currentMenu === TicketMenu.past}  />}
+        data={currentMenu === TicketMenu.upcoming ? currentTickets : oldTickets}
+        renderItem={({ item }) => (
+          <TicketCard
+            dataTicket={item}
+            isPast={currentMenu === TicketMenu.past}
+          />
+        )}
         style={{ marginTop: 20, paddingHorizontal: 16 }}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-      
       />
     </Container>
   );
