@@ -1,20 +1,24 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+
 import userSlice from "./user/userSlice";
+import eventSlice from "./event/eventSlice";
+import ticketSlice from "./ticket/ticketSlice";
 
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
-import eventSlice from "./event/eventSlice";
+
 
 const reducers = combineReducers({
   user: userSlice,
   event: eventSlice,
+  ticket: ticketSlice,
 });
 
 const persistConfig = {
   key: "events_persist",
   storage: AsyncStorage,
-  version: 5,
+  version: 6,
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
