@@ -72,7 +72,7 @@ export function TicketQRCode({ route }) {
           { useNativeDriver: false }
         )}
         style={{ backgroundColor: "white" }}
-        contentContainerStyle={{ height: 800 }}
+        contentContainerStyle={{ paddingBottom: 120 }}
       >
         <Content>
           <Heading type="h4">{eventData.eventName}</Heading>
@@ -171,6 +171,7 @@ export function TicketQRCode({ route }) {
             return (
               <TicketQRCodeContainer
                 style={{ marginTop: index === 0 ? 0 : 32 }}
+                key={index}
               >
                 <Text type="defaultBold" color={theme.colors.font_dark}>
                   Ingresso {index + 1}

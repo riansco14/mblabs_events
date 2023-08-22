@@ -76,7 +76,6 @@ export function TicketInfo({ route }) {
           { useNativeDriver: false }
         )}
         style={{ backgroundColor: "white" }}
-        contentContainerStyle={{ height: 800 }}
       >
         <Content>
           <Heading type="h4">{eventData.eventName}</Heading>
