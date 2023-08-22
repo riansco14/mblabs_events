@@ -16,6 +16,9 @@ import TicketFill from "../../assets/icons/ticket_fill.svg";
 import HeartFill from "../../assets/icons/heart_fill.svg";
 import ChevronDown from "../../assets/icons/chevron_down.svg";
 import Search from "../../assets/icons/search.svg";
+import ShoppingBag from "../../assets/icons/shopping_bag.svg";
+import PlusCircle from "../../assets/icons/plus_circle.svg";
+import MinusCircle from "../../assets/icons/minus_circle.svg";
 
 export enum IconNames {
   heart = "heart",
@@ -33,6 +36,9 @@ export enum IconNames {
   heart_fill = "heart_fill",
   chevron_down = "chevron_down",
   search = "search",
+  shopping_bag = "shopping_bag",
+  plus_circle = "plus_circle",
+  minus_circle = "minus_circle",
 }
 
 type IconNamesType = `${IconNames}`;
@@ -81,5 +87,11 @@ export function Icon({
       return <ChevronDown color={color} width={width} height={height} />;
     case IconNames.search:
       return <Search color={color} width={width} height={height} />;
+    case IconNames.shopping_bag:
+      return <ShoppingBag color={color} width={width} height={height} />;
+    case IconNames.plus_circle:
+      return <PlusCircle color={color} width={width} height={height} />;
+    case IconNames.minus_circle:
+      return <MinusCircle color={color} width={width} height={height} />;
   }
 }
