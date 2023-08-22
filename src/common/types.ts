@@ -4,6 +4,12 @@ export type UserType = {
   username: string;
 };
 
+export type EventTicketType = {
+  id: number;
+  type: string;
+  value: number;
+};
+
 export type CityType = {
   id: number;
   state: string;
@@ -26,6 +32,7 @@ export interface EventCardType {
   locationName: string;
   highlight?: boolean;
   price: string;
+  ticket : EventTicketType;
 }
 
 

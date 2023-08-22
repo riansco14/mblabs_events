@@ -29,7 +29,7 @@ export const getCities = (): CityType[] => [
 ];
 
 export const getEvents = (idCity: number): EventCardType[] => {
-  const eventsDB = [
+  const eventsDB:EventCardType[] = [
     {
       idEvent: 1,
       eventName: "The Kooks",
@@ -46,6 +46,11 @@ export const getEvents = (idCity: number): EventCardType[] => {
         endDate: 1700521200694,
       },
       price: "R$ 10,00",
+      ticket: {
+        id: 1,
+        type: "Ingresso Simples",
+        value: 50.0
+      }
     },
     {
       idEvent: 2,
@@ -63,6 +68,11 @@ export const getEvents = (idCity: number): EventCardType[] => {
         endDate: 1700521200694,
       },
       price: "R$ 20,00",
+      ticket: {
+        id: 1,
+        type: "Ingresso Simples",
+        value: 50.0
+      }
     },
     {
       idEvent: 3,
@@ -80,6 +90,11 @@ export const getEvents = (idCity: number): EventCardType[] => {
         endDate: 1700521200694,
       },
       price: "R$ 30,00",
+      ticket: {
+        id: 1,
+        type: "Ingresso Simples",
+        value: 50.0
+      }
     },
     {
       idEvent: 4,
@@ -98,6 +113,11 @@ export const getEvents = (idCity: number): EventCardType[] => {
       },
       highlight: true,
       price: "R$ 50,00",
+      ticket: {
+        id: 1,
+        type: "Ingresso Simples",
+        value: 50.0
+      }
     },
     {
       idEvent: 5,
@@ -115,6 +135,11 @@ export const getEvents = (idCity: number): EventCardType[] => {
         endDate: 1700521200694,
       },
       price: "R$ 50,00",
+      ticket: {
+        id: 1,
+        type: "Ingresso Simples",
+        value: 50.0
+      }
     },
     {
       idEvent: 6,
@@ -132,6 +157,11 @@ export const getEvents = (idCity: number): EventCardType[] => {
         endDate: 1700521200694,
       },
       price: "R$ 10,00",
+      ticket: {
+        id: 1,
+        type: "Ingresso Simples",
+        value: 50.0
+      },
       highlight: true,
     },
     {
@@ -150,6 +180,11 @@ export const getEvents = (idCity: number): EventCardType[] => {
         endDate: 1700521200694,
       },
       price: "R$ 20,00",
+      ticket: {
+        id: 1,
+        type: "Ingresso Simples",
+        value: 50.0
+      }
     },
     {
       idEvent: 8,
@@ -167,6 +202,11 @@ export const getEvents = (idCity: number): EventCardType[] => {
         endDate: 1700521200694,
       },
       price: "R$ 30,00",
+      ticket: {
+        id: 1,
+        type: "Ingresso Simples",
+        value: 50.0
+      }
     },
     {
       idEvent: 9,
@@ -184,6 +224,11 @@ export const getEvents = (idCity: number): EventCardType[] => {
         endDate: 1700521200694,
       },
       price: "R$ 50,00",
+      ticket: {
+        id: 1,
+        type: "Ingresso Simples",
+        value: 50.0
+      }
     },
   ];
 
@@ -217,26 +262,45 @@ export const getImage = (idEvent: number) => {
   }
 };
 
+let tickets = [{
+  id: 1,
+  amount: 1,
+  event: getEvent(1),
+  past: false
+},
+{
+  id: 2,
+  amount: 2,
+  event: getEvent(2),
+  past: false
+},
+{
+  id: 3,
+  amount: 2,
+  event: getEvent(9),
+  past: true
+}
+]
 
 export const getTickets = (): TicketType[] => {
-  return [{
-    id: 1,
-    amount: 1,
-    event: getEvent(1),
+  return tickets
+}
+
+export const getTicket = (idTicket): TicketType => {
+  const ticket = tickets.find(item=>item.id === idTicket)
+  return ticket
+}
+
+
+export const buyTicket = (event: EventCardType, amount: number): void => {
+  const ticket: TicketType = {
+    id: Math.floor(Math.random() * 10000),
+    amount: amount,
+    event: event,
     past: false
-  },
-  {
-    id: 2,
-    amount: 2,
-    event: getEvent(2),
-    past: false
-  },
-  {
-    id: 3,
-    amount: 2,
-    event: getEvent(9),
-    past: true
   }
-]
+  
+  const ticketsF =[...tickets, ticket]
+  tickets = ticketsF
 }
 
