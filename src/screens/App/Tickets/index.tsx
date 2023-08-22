@@ -6,7 +6,9 @@ import theme from "../../../config/styles/theme";
 import { Text } from "../../../components/Text";
 import { FlatList } from "react-native-gesture-handler";
 import { TicketCard } from "../../../components/TicketCard";
-import { getTickets } from "../../../../database/db";
+import useFetchTickets from "../../../services/fetch/FetchTickets";
+import { useNavigation } from "@react-navigation/native";
+import { AuthStackParam } from "../../../config/navigation/routes";
 
 enum TicketMenu {
   upcoming = 0,
@@ -16,10 +18,20 @@ enum TicketMenu {
 export function Tickets() {
   const [currentMenu, setCurrentMenu] = useState(TicketMenu.upcoming);
 
-  const tickets = getTickets();
+  const tickets = useFetchTickets();
 
-  const currentTickets = tickets.filter((item) => item.past === false);
-  const oldTickets = tickets.filter((item) => item.past === true);
+  const navigation = useNavigation<AuthStackParam>();
+
+  const currentTickets = tickets.data
+    ? tickets.data.filter((item) => item.past === false)
+    : [];
+  const oldTickets = tickets.data
+    ? tickets.data.filter((item) => item.past === true)
+    : [];
+
+  function handleTicketQRCode(idTicket: number) {
+    navigation.navigate("TicketQRCode", { idTicket: idTicket });
+  }
 
   return (
     <Container>
@@ -71,6 +83,7 @@ export function Tickets() {
           <TicketCard
             dataTicket={item}
             isPast={currentMenu === TicketMenu.past}
+            onPress={() => handleTicketQRCode(item.id)}
           />
         )}
         style={{ marginTop: 20, paddingHorizontal: 16 }}
