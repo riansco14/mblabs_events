@@ -22,9 +22,14 @@ import { addOrRemoveEventFavorite } from "../../../../store/event/eventSlice";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackParam } from "../../../../config/navigation/routes";
 import { getEvent } from "../../../../../database/db";
-import { createEventInCalendar, openMaps, shareEvent } from "../../../../services/system/System";
+import {
+  createEventInCalendar,
+  openMaps,
+  shareEvent,
+} from "../../../../services/system/System";
 
 import moment from "moment";
+import { setEvent } from "../../../../store/ticket/ticketSlice";
 
 export function TicketInfo({ route }) {
   const theme = useTheme();
@@ -47,6 +52,11 @@ export function TicketInfo({ route }) {
     if (navigation.canGoBack()) {
       navigation.goBack();
     }
+  }
+
+  function handleTicketBuy() {
+    dispatch(setEvent(eventData))
+    navigation.navigate("TicketPay", { idEvent });
   }
 
   return (
@@ -83,22 +93,36 @@ export function TicketInfo({ route }) {
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 24 }}
               >
-               {moment(eventData.dateInfo.startDate).format("ddd, MMM D · kk:mm").toUpperCase()}
+                {moment(eventData.dateInfo.startDate)
+                  .format("ddd, MMM D · kk:mm")
+                  .toUpperCase()}
               </TextCustom>
               <TextCustom
                 type="small"
                 color={theme.colors.font_dark}
                 style={{ lineHeight: 20 }}
               >
-               {moment(eventData.dateInfo.startDate).format("kk:mm").toUpperCase()}{"\t-\t"}{moment(eventData.dateInfo.endDate).format("kk:mm").toUpperCase()}
+                {moment(eventData.dateInfo.startDate)
+                  .format("kk:mm")
+                  .toUpperCase()}
+                {"\t-\t"}
+                {moment(eventData.dateInfo.endDate)
+                  .format("kk:mm")
+                  .toUpperCase()}
               </TextCustom>
-              <TouchableOpacity onPress={()=>{
-                createEventInCalendar({
-                  title: eventData.eventName,
-                  startDate: moment(eventData.dateInfo.startDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-                  endDate: moment(eventData.dateInfo.endDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
-                })
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  createEventInCalendar({
+                    title: eventData.eventName,
+                    startDate: moment(eventData.dateInfo.startDate).format(
+                      "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+                    ),
+                    endDate: moment(eventData.dateInfo.endDate).format(
+                      "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+                    ),
+                  });
+                }}
+              >
                 <TextCustom
                   type="small"
                   color={theme.colors.blue}
@@ -212,6 +236,7 @@ export function TicketInfo({ route }) {
               padding: 12,
               borderRadius: 10,
             }}
+            onPress={handleTicketBuy}
           >
             <TextCustom type="default" color={theme.colors.white}>
               Comprar
