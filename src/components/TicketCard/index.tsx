@@ -12,18 +12,19 @@ import { useTheme } from "styled-components";
 import { TicketType } from "../../common/types";
 import { getImage } from "../../../database/db";
 import moment from "moment";
+import { TouchableOpacityProps } from "react-native";
 
-interface TicketCardProps {
+interface TicketCardProps extends TouchableOpacityProps {
   dataTicket: TicketType;
   isPast?: boolean;
 }
 
-export function TicketCard({ dataTicket, isPast }: TicketCardProps) {
+export function TicketCard({ dataTicket, isPast, ...rest }: TicketCardProps) {
   const theme = useTheme();
   const image = getImage(dataTicket.event.idEvent);
 
   return (
-    <Container>
+    <Container {...rest}>
       <TicketInfoContainer>
         <TicketInfoSection>
           <Icon
