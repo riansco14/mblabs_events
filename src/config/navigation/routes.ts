@@ -11,6 +11,8 @@ type AuthStackParamList = {
 type AppStackParamList = {
   BottomTabs: undefined;
   TicketInfo: { idEvent: number };
+  TicketPay: { idEvent: number };
+  TicketQRCode: { idTicket: number };
   SelectCity: undefined;
 };
 

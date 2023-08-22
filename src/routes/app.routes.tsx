@@ -10,6 +10,8 @@ import { Favorites } from "../screens/App/Favorites";
 import { UserInfo } from "../screens/App/UserInfo";
 import { TicketInfo } from "../screens/App/TicketsBuy/TicketInfo";
 import { SelectCity } from "../screens/App/SelectCity";
+import { TicketPay } from "../screens/App/TicketsBuy/TicketPay";
+import { TicketQRCode } from "../screens/App/Tickets/TicketQRCode";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -45,7 +47,7 @@ function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name="Ticket"
+        name="Tickets"
         component={Tickets}
         options={{
           tabBarIcon: ({ color, focused, size }) => (
@@ -95,6 +97,8 @@ export function AppRoutes() {
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="BottomTabs" component={BottomTabs} />
       <Screen name="TicketInfo" component={TicketInfo} />
+      <Screen name="TicketPay" component={TicketPay} />
+      <Screen name="TicketQRCode" component={TicketQRCode} />
       <Screen name="SelectCity" component={SelectCity} />
     </Navigator>
   );
