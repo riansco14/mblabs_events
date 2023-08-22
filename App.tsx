@@ -15,11 +15,14 @@ import { persistStore } from "redux-persist";
 
 import moment from "moment";
 import 'moment/locale/pt-br'
+import { QueryClient, QueryClientProvider } from "react-query";
 moment.locale('pt-br');
 
 SplashScreen.preventAutoHideAsync();
 
 let persistor = persistStore(store)
+
+const queryClient = new QueryClient()
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -43,10 +46,12 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+      <QueryClientProvider client={queryClient}>
         <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
           <StatusBar backgroundColor={theme.colors.primary} style="light" />
           <Routes />
         </SafeAreaView>
+        </QueryClientProvider>
       </PersistGate>
       </Provider>
     </ThemeProvider>
